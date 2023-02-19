@@ -33,8 +33,6 @@
 \newtheorem{exercise}{Exercise}[section]
 \newtheorem*{remark}{Remark}
 
-% TODO: Add a new environment for proofs and replace all occurrences of \textbf{Proof} with it
-
 \newcommand{\dd}[1]{\mathrm{d}#1}
 \newcommand{\utilde}[1]{\underaccent{\tilde}{#1}}
 
@@ -119,15 +117,14 @@ is said to be a \textbf{trajectory} of the system if it is a solution of the equ
 The curve $t \mapsto u(t)$ in $U$ is then called the \textbf{input}, the curve $t \mapsto x(t)$ is called the \textbf{state curve}, and the curve $t \mapsto y(t)$ is called the \textbf{output}.
 
 \begin{definition}
-A curve $t \mapsto (u(t), y(t))$ in $U \times Y$ is called an \textbf{input-output pair} if there is a curve $t \mapsto x(t)$ in the state space $X$ such that
-$$t \mapsto (x(t), u(t), y(t))$$
-is a solution of (\ref{eq:ODESystem1}), i.e. is a trajectory of the system.
+    A curve $t \mapsto (u(t), y(t))$ in $U \times Y$ is called an \textbf{input-output pair} if there is a curve $t \mapsto x(t)$ in the state space $X$ such that
+    $$t \mapsto (x(t), u(t), y(t))$$
+    is a solution of (\ref{eq:ODESystem1}), i.e. is a trajectory of the system.
 \end{definition}
 
 One main mathematical goal of systems theory is to study to what extent the set of input-output pairs characterizes the whole system.
 
-\textbf{Remarks.} % TODO: Make this into a standard environment.
-% TODO: Fix the vertical spacing here.
+\textbf{Remarks}.
 \begin{enumerate}
     \item I have chosen this specific mathematical framework for describing what is meant by a "system" so that we can go to work with a minimum of definitions.
     Refer to Kalman, Arbib and Falb [1], Zadeh and Desoer [1], for the full story. % TODO: Move refs to bibliography.
@@ -231,8 +228,8 @@ All the data necessary to define a linear system may be summarized in the follow
 
 \begin{equation*}
 \begin{tikzcd}
-U \ar[r,"D"] \ar[d,"B"'] & Y \\
-X \ar[r,"A"'] & X \ar[u,"C"']
+    U \ar[r,"D"] \ar[d,"B"'] & Y \\
+    X \ar[r,"A"'] & X \ar[u,"C"']
 \end{tikzcd}
 \end{equation*}
 
@@ -339,7 +336,7 @@ Let us formalize this construction.
 
 Our discussion above proves the following (trivial) result:
 \begin{theorem}
-If $\sigma = (A, B, C, D)$ and $\sigma_1 = (A_1, B_1, C_1, D_1)$ are algebraically equivalent, then they are equivalent.
+    If $\sigma = (A, B, C, D)$ and $\sigma_1 = (A_1, B_1, C_1, D_1)$ are algebraically equivalent, then they are equivalent.
 \end{theorem}
 
 \begin{remark}
@@ -373,7 +370,7 @@ then
 \end{align}
 
 \begin{exercise}
-Show that (\ref{eq:gsigma1}) defines an action of $\mathrm{GL}(X)$ on $\Sigma$ as a transformation group.
+    Show that (\ref{eq:gsigma1}) defines an action of $\mathrm{GL}(X)$ on $\Sigma$ as a transformation group.
 \end{exercise}
 
 Let us restate things in the following way.
@@ -434,8 +431,7 @@ Hence, the complete solution to the system (\ref{eq:LinearODESystemy1}) is:
     is called the \textbf{frequency response} of the system.
 \end{definition}
 
-\textbf{Remarks}. % TODO: Add an environment for this.
-% TODO: Fix this vertical spacing.
+\textbf{Remarks}.
 \begin{enumerate}
     \item \textbf{Resolvents}.
     In functional analysis, the operator-valued function
@@ -475,55 +471,56 @@ Here is a main result.
     \end{align}
 \end{theorem}
 
-\textbf{Proof}. % TODO: Add an environment for this.
-Let $t \mapsto u(t)$ be an input curve, and let $x(0)$ be an initial state vector. Let $t \mapsto y(t)$ be the output curve determined by $\{t \mapsto u(t), x(0)\}$ in system $\sigma$. Using (\ref{eq:LinearODESystemy1Solution1}), $y(t)$ is determined by the following formula:
-\begin{align} \label{eq:LinearODESystemy1Solution2}
-    y(t) &= \int_0^t Ce^{A(t-s)}Bu(s)\ \dd{s} + Ce^{At}x(0) + Du(t).
-\end{align}
-
-By hypothesis, $\sigma$ and $\sigma_1$ are equivalent.
-This means that there must be a state vector $x_1(0) \in X_1$, such that $\{t \mapsto u(t), x_1(0)\}$ determines the output $t \mapsto y(t)$ in the $c_1$ system, i.e. that:
-\begin{align} \label{eq:LinearODESystemy1Solution3}
-    y(t) &= \int_0^t C_1e^{A_1(t-s)}B_1u(s)\ \dd{s} + C_1e^{A_1t}x_1(0) + D_1u(t).
-\end{align}
-Equating (\ref{eq:LinearODESystemy1Solution2}) and (\ref{eq:LinearODESystemy1Solution3}), we have:
-\begin{align} \label{eq:LinearODESystemy1Solution4}
-    0 &= \int_0^t \left[Ce^{A(t-s)}B-C_1e^{A_1(t-s)}B_1\right]u(s)\ \dd{s} + Ce^{A_0t}x(0) - C_1e^{A_1t}x_1(0) + (D-D_1)u(t).
-\end{align}
-
-Let us recapitulate the logic which led to equation (\ref{eq:LinearODESystemy1Solution4}).
-The input curve $t \mapsto u(t)$, in $U$ and the state vector $x(0) \in X$ is given.
-$x_1(0)$ is a vector in $X_1$ such that (\ref{eq:LinearODESystemy1Solution4}) holds for all $t$.
-Let us now put in special inputs and states.
-For example:
-\begin{align}
-\begin{split} \label{eq:SpecialInputsStates1}
-    u(t) &= e^{-\lambda t}u(0) \\
-    x(0) &= 0,
-\end{split}
-\end{align}
-where $\lambda$ is a complex number, $u(0)$ an arbitrary element of $U$.
-Now,
-\begin{align}
-\begin{split} \label{eq:Integral1}
-    \int_0^t e^{A(t-s)}e^{-s}\ \dd{s} &= e^{At}\int_0^t e^{-s(A+\lambda)}\ \dd{s} \\
-    &= \left.e^{At}(-1)(A+\lambda)^{-1}e^{-s(A+\lambda)}\right|_{s=0}^t \\
-    &= -e^{At}(A+\lambda)^{-1}(e^{-t(A+\lambda)} - 1) \\
-    &= e^{At}(A+\lambda)^{-1}(e^{At}-e^{-\lambda t}).
-\end{split}
-\end{align}
-Substituting (\ref{eq:LinearODESystemy1Solution4}) into (\ref{eq:SpecialInputsStates1}), and using (\ref{eq:Integral1}) we have:
-\begin{align}
-\begin{split}
-    0 &= C(A+\lambda)^{-1}(e^{At}-e^{-\lambda t})Bu(0) - C_1(A_1+\lambda)^{-1}(e^{A_1t}-e^{-\lambda t})B_1u(0) \\
-    &+ C_1e^{A_1t}x_1(0) + (D-D_1)u(0).
-\end{split}
-\end{align}
-We see that the coefficients of $e^{-\lambda t}$ in relation (\ref{eq:SpecialInputsStates1}) must vanish, hence:
-\begin{align}
-    C(A+\lambda)^{-1}B &= C_1(A_1+\lambda)^{-1}B_1.
-\end{align}
-This says that the frequency response functions are equal, hence proves Theorem \ref{thm:Equivalence1}.
+\begin{proof}
+    Let $t \mapsto u(t)$ be an input curve, and let $x(0)$ be an initial state vector. Let $t \mapsto y(t)$ be the output curve determined by $\{t \mapsto u(t), x(0)\}$ in system $\sigma$. Using (\ref{eq:LinearODESystemy1Solution1}), $y(t)$ is determined by the following formula:
+    \begin{align} \label{eq:LinearODESystemy1Solution2}
+        y(t) &= \int_0^t Ce^{A(t-s)}Bu(s)\ \dd{s} + Ce^{At}x(0) + Du(t).
+    \end{align}
+    
+    By hypothesis, $\sigma$ and $\sigma_1$ are equivalent.
+    This means that there must be a state vector $x_1(0) \in X_1$, such that $\{t \mapsto u(t), x_1(0)\}$ determines the output $t \mapsto y(t)$ in the $c_1$ system, i.e. that:
+    \begin{align} \label{eq:LinearODESystemy1Solution3}
+        y(t) &= \int_0^t C_1e^{A_1(t-s)}B_1u(s)\ \dd{s} + C_1e^{A_1t}x_1(0) + D_1u(t).
+    \end{align}
+    Equating (\ref{eq:LinearODESystemy1Solution2}) and (\ref{eq:LinearODESystemy1Solution3}), we have:
+    \begin{align} \label{eq:LinearODESystemy1Solution4}
+        0 &= \int_0^t \left[Ce^{A(t-s)}B-C_1e^{A_1(t-s)}B_1\right]u(s)\ \dd{s} + Ce^{A_0t}x(0) - C_1e^{A_1t}x_1(0) + (D-D_1)u(t).
+    \end{align}
+    
+    Let us recapitulate the logic which led to equation (\ref{eq:LinearODESystemy1Solution4}).
+    The input curve $t \mapsto u(t)$, in $U$ and the state vector $x(0) \in X$ is given.
+    $x_1(0)$ is a vector in $X_1$ such that (\ref{eq:LinearODESystemy1Solution4}) holds for all $t$.
+    Let us now put in special inputs and states.
+    For example:
+    \begin{align}
+    \begin{split} \label{eq:SpecialInputsStates1}
+        u(t) &= e^{-\lambda t}u(0) \\
+        x(0) &= 0,
+    \end{split}
+    \end{align}
+    where $\lambda$ is a complex number, $u(0)$ an arbitrary element of $U$.
+    Now,
+    \begin{align}
+    \begin{split} \label{eq:Integral1}
+        \int_0^t e^{A(t-s)}e^{-s}\ \dd{s} &= e^{At}\int_0^t e^{-s(A+\lambda)}\ \dd{s} \\
+        &= \left.e^{At}(-1)(A+\lambda)^{-1}e^{-s(A+\lambda)}\right|_{s=0}^t \\
+        &= -e^{At}(A+\lambda)^{-1}(e^{-t(A+\lambda)} - 1) \\
+        &= e^{At}(A+\lambda)^{-1}(e^{At}-e^{-\lambda t}).
+    \end{split}
+    \end{align}
+    Substituting (\ref{eq:LinearODESystemy1Solution4}) into (\ref{eq:SpecialInputsStates1}), and using (\ref{eq:Integral1}) we have:
+    \begin{align}
+    \begin{split}
+        0 &= C(A+\lambda)^{-1}(e^{At}-e^{-\lambda t})Bu(0) - C_1(A_1+\lambda)^{-1}(e^{A_1t}-e^{-\lambda t})B_1u(0) \\
+        &+ C_1e^{A_1t}x_1(0) + (D-D_1)u(0).
+    \end{split}
+    \end{align}
+    We see that the coefficients of $e^{-\lambda t}$ in relation (\ref{eq:SpecialInputsStates1}) must vanish, hence:
+    \begin{align}
+        C(A+\lambda)^{-1}B &= C_1(A_1+\lambda)^{-1}B_1.
+    \end{align}
+    This says that the frequency response functions are equal, hence proves Theorem \ref{thm:Equivalence1}.
+\end{proof}
 
 \begin{remark}
     We can interpret this result in the following way.
@@ -551,8 +548,8 @@ Let $\sigma$ be a linear system, described by the following diagram of spaces an
 
 \begin{equation}
 \begin{tikzcd} \label{diag:LinearSystem1}
-U \ar[r,"D"] \ar[d,"B"'] & Y \\
-X \ar[r,"A"'] & X \ar[u,"C"']
+    U \ar[r,"D"] \ar[d,"B"'] & Y \\
+    X \ar[r,"A"'] & X \ar[u,"C"']
 \end{tikzcd}
 \end{equation}
 
@@ -588,31 +585,33 @@ Here is a main result.
     Suppose $\sigma$ and $\sigma_1$ are equivalent. Then, $\sigma$ and $\sigma_1$ are algebraically equivalent.
 \end{theorem}
 
-\textbf{Proof}.
-Let $t \mapsto u(t), y(t)$ be an input-output curve for the system $\sigma$.
-By (\ref{eq:LinearODESystemy1Solution2}), this means that there is an $x_0 \in X$ such that
-\begin{align} \label{eq:CompletelyObservableLinearODESystemy1}
-    y(t) &= \int_0^t Ce^{A(t-s)}Bu(s)\ \dd{s} + Ce^{At}x_0 + Du(t).
-\end{align}
-To say that $\sigma$ is equivalent to $\sigma_1$ is to say that $t \mapsto (u(t), y(t))$ is also an input-output curve for the system $\sigma_1$, i.e. that there is an $x_1 \in X$ such that:
-\begin{align} \label{eq:CompletelyObservableLinearODESystemy2}
-    y(t) &= \int_0^t C_1e^{A_1(t-s)}Bu(s)\ \dd{s} + C_1e^{A_1t}x_1 + D_1u(t).
-\end{align}
-Now, by Theorem \ref{thm:Equivalence1}, $\sigma$ and $\sigma_1$ have the same frequency response function.
-Hence, they have the same impulse response function (since ``frequency response'' is the Laplace transform of ``impulse response'', and the Laplace transform is a one-one map), i.e. the first terms on the right hand sides of (\ref{eq:CompletelyObservableLinearODESystemy1}) and (\ref{eq:CompletelyObservableLinearODESystemy2}) are equal.
-Hence, we have:
-\begin{align}
-    Ce^{At}x_0 + Du(t) &= C_1e^{A_1t}x_1 + D_1u(t).
-\end{align}
-Now, $t \mapsto u(t)$ may be an \emph{arbitrary} curve in the input space $U$. $(D-D_1)$ is a linear map
-$$U \to Y.$$
-It should be intuitively clear that the image of an arbitrary curve in $U$ under the linear map $D-D_1$ is the sum of exponentials if and only if $D-D_1=0$, i.e.
-\begin{align} \label{eq:D=D_1}
-    D &= D_1.
-\end{align}
+\begin{proof}
+    Let $t \mapsto u(t), y(t)$ be an input-output curve for the system $\sigma$.
+    By (\ref{eq:LinearODESystemy1Solution2}), this means that there is an $x_0 \in X$ such that
+    \begin{align} \label{eq:CompletelyObservableLinearODESystemy1}
+        y(t) &= \int_0^t Ce^{A(t-s)}Bu(s)\ \dd{s} + Ce^{At}x_0 + Du(t).
+    \end{align}
+    To say that $\sigma$ is equivalent to $\sigma_1$ is to say that $t \mapsto (u(t), y(t))$ is also an input-output curve for the system $\sigma_1$, i.e. that there is an $x_1 \in X$ such that:
+    \begin{align} \label{eq:CompletelyObservableLinearODESystemy2}
+        y(t) &= \int_0^t C_1e^{A_1(t-s)}Bu(s)\ \dd{s} + C_1e^{A_1t}x_1 + D_1u(t).
+    \end{align}
+    Now, by Theorem \ref{thm:Equivalence1}, $\sigma$ and $\sigma_1$ have the same frequency response function.
+    Hence, they have the same impulse response function (since ``frequency response'' is the Laplace transform of ``impulse response'', and the Laplace transform is a one-one map), i.e. the first terms on the right hand sides of (\ref{eq:CompletelyObservableLinearODESystemy1}) and (\ref{eq:CompletelyObservableLinearODESystemy2}) are equal.
+    Hence, we have:
+    \begin{align}
+        Ce^{At}x_0 + Du(t) &= C_1e^{A_1t}x_1 + D_1u(t).
+    \end{align}
+    Now, $t \mapsto u(t)$ may be an \emph{arbitrary} curve in the input space $U$. $(D-D_1)$ is a linear map
+    $$U \to Y.$$
+    It should be intuitively clear that the image of an arbitrary curve in $U$ under the linear map $D-D_1$ is the sum of exponentials if and only if $D-D_1=0$, i.e.
+    \begin{align} \label{eq:D=D_1}
+        D &= D_1.
+    \end{align}
+\end{proof}
 
-\textbf{Exercise}.
-Give the details of the proof of (\ref{eq:D=D_1}).
+\begin{exercise}
+    Give the details of the proof of (\ref{eq:D=D_1}).
+\end{exercise}
 
 With (\ref{eq:D=D_1}) satisfied, everything reduces to the following identity:
 \begin{align} \label{eq:Ce^(At)x_0=C_1e^(A_1t)x_1}
@@ -730,53 +729,54 @@ If we drop this requirement, it does come in.
     \end{align}
 \end{theorem}
 
-\textbf{Proof}.
-Follow through the argument given in Theorem \ref{thm:Equivalence2}, and define $g$ again so that:
-$$x_1 = gx_0.$$
-(Now, $x_1 \in X_1, x_0 \in X_0$, but this makes no difference.)
-Again, (\ref{eq:CA^n=C_1A_1^ng}) is satisfied.
-Complete observability implies that:
-$$g \text{ is one-one}.$$
-By Theorem \ref{thm:Equivalence1},
-\begin{align} \label{eq:CA^nB=C_1A_1^nB_1}
-    CA^nB &= C_1A_1^nB_1 \text{ for all } n.
-\end{align}
-Combine (\ref{eq:g(x_0)=x_1}) and (\ref{eq:CA^nB=C_1A_1^nB_1}):
-$$C_1A_1^ngB = C_1A_1^nB_1.$$
-Hence,
-$$C_1A_1^n(gB-B_1) = 0,$$
-or
-\begin{align} \label{eq:gB=B_1}
-    gB &= B_1,
-\end{align}
-by complete observability again.
-Using (\ref{eq:g(x_0)=x_1}),
-\begin{align*}
-\begin{split}
-    C_1(gA - A_1g) &= C_1gA - CA = 0, \text{ by } (\ref{eq:CA^n=C_1A_1^ng}) \\
-    C_1A_1(gA - A_1g) &= CA^2 - CA_1^2g = 0, \text{ by } (\ref{eq:g(x_0)=x_1}).
-\end{split}
-\end{align*}
-Continuing in this way, we see that:
-$$C_1A_1^n(gA - A_1g) = 0 \text{ for all } n,$$
-hence, by complete observability,
-\begin{align} \label{eq:gA=A_1g}
-    gA &= A_1g.
-\end{align}
-Having proved (\ref{eq:CA^n=C_1A_1^ng}), (\ref{eq:gB=B_1}) and (\ref{eq:gA=A_1g}) (using only observability), all that remains to be done is to prove $g^{-1}$ exists.
-Since $g$ is one-one, we must prove that $g$ is onto.
-
-Now, using (\ref{eq:gB=B_1}),
-\begin{align} \label{eq:B_1(U)subsetg(X)}
-    B_1(U) \subset g(X).
-\end{align}
-
-$A_1B_1(U) = A_1gB(U)$, using (\ref{eq:B_1(U)subsetg(X)}), is equivalent to, using (\ref{eq:gA=A_1g}), $gAB(U) \subset g(X)$.
-Continuing in this way, we have:
-$$A_1^nB_1(U) \subset g(X) \text{ for all } n.$$
-Complete controllability of $\sigma_1$ now implies that
-$$g(X) = X_1,$$
-which finishes the proof of Theorem \ref{thm:Equivalence3}.
+\begin{proof}
+    Follow through the argument given in Theorem \ref{thm:Equivalence2}, and define $g$ again so that:
+    $$x_1 = gx_0.$$
+    (Now, $x_1 \in X_1, x_0 \in X_0$, but this makes no difference.)
+    Again, (\ref{eq:CA^n=C_1A_1^ng}) is satisfied.
+    Complete observability implies that:
+    $$g \text{ is one-one}.$$
+    By Theorem \ref{thm:Equivalence1},
+    \begin{align} \label{eq:CA^nB=C_1A_1^nB_1}
+        CA^nB &= C_1A_1^nB_1 \text{ for all } n.
+    \end{align}
+    Combine (\ref{eq:g(x_0)=x_1}) and (\ref{eq:CA^nB=C_1A_1^nB_1}):
+    $$C_1A_1^ngB = C_1A_1^nB_1.$$
+    Hence,
+    $$C_1A_1^n(gB-B_1) = 0,$$
+    or
+    \begin{align} \label{eq:gB=B_1}
+        gB &= B_1,
+    \end{align}
+    by complete observability again.
+    Using (\ref{eq:g(x_0)=x_1}),
+    \begin{align*}
+    \begin{split}
+        C_1(gA - A_1g) &= C_1gA - CA = 0, \text{ by } (\ref{eq:CA^n=C_1A_1^ng}) \\
+        C_1A_1(gA - A_1g) &= CA^2 - CA_1^2g = 0, \text{ by } (\ref{eq:g(x_0)=x_1}).
+    \end{split}
+    \end{align*}
+    Continuing in this way, we see that:
+    $$C_1A_1^n(gA - A_1g) = 0 \text{ for all } n,$$
+    hence, by complete observability,
+    \begin{align} \label{eq:gA=A_1g}
+        gA &= A_1g.
+    \end{align}
+    Having proved (\ref{eq:CA^n=C_1A_1^ng}), (\ref{eq:gB=B_1}) and (\ref{eq:gA=A_1g}) (using only observability), all that remains to be done is to prove $g^{-1}$ exists.
+    Since $g$ is one-one, we must prove that $g$ is onto.
+    
+    Now, using (\ref{eq:gB=B_1}),
+    \begin{align} \label{eq:B_1(U)subsetg(X)}
+        B_1(U) \subset g(X).
+    \end{align}
+    
+    $A_1B_1(U) = A_1gB(U)$, using (\ref{eq:B_1(U)subsetg(X)}), is equivalent to, using (\ref{eq:gA=A_1g}), $gAB(U) \subset g(X)$.
+    Continuing in this way, we have:
+    $$A_1^nB_1(U) \subset g(X) \text{ for all } n.$$
+    Complete controllability of $\sigma_1$ now implies that
+    $$g(X) = X_1,$$
+    which finishes the proof of Theorem \ref{thm:Equivalence3}.
+\end{proof}
 
 \textbf{Corollary to Theorem \ref{thm:Equivalence3}}.
 If two linear systems are completely controllable and observable, and are input-output equivalent, then their state spaces have the same dimension.
@@ -800,8 +800,8 @@ Here is the mapping diagram of $\sigma$.
 
 \begin{equation*}
 \begin{tikzcd} \label{diag:LinearSystem2}
-U \ar[r,"D"] \ar[d,"B"'] & Y \\
-X \ar[r,"A"'] & X \ar[u,"C"']
+    U \ar[r,"D"] \ar[d,"B"'] & Y \\
+    X \ar[r,"A"'] & X \ar[u,"C"']
 \end{tikzcd}
 \end{equation*}
 
@@ -810,8 +810,8 @@ We obtain the following mapping diagram:
 
 \begin{equation*}
 \begin{tikzcd} \label{diag:LinearSystem3}
-Y^d \ar[r,"D^d"] \ar[d,"C^d"'] & U^d \\
-X^d \ar[r,"A^d"'] & X^d \ar[u,"B^d"']
+    Y^d \ar[r,"D^d"] \ar[d,"C^d"'] & U^d \\
+    X^d \ar[r,"A^d"'] & X^d \ar[u,"B^d"']
 \end{tikzcd}
 \end{equation*}
 
@@ -824,8 +824,9 @@ The state spaces of $\sigma$ and $\sigma^d$ are the same dimension, of course.
     $\sigma$ is completely observable if and only if $\sigma^d$ is completely controllable.
 \end{theorem}
 
-\textbf{Exercise}.
-Prove Theorem \ref{thm:CompletelyObservableIffCompletelyControllable}.
+\begin{exercise}
+    Prove Theorem \ref{thm:CompletelyObservableIffCompletelyControllable}.
+\end{exercise}
 
 Now, if a system $\sigma$ is not completely controllable, it is possible to reduce it to make a controllable one.
 Here is a relevant
@@ -842,32 +843,34 @@ Here is a relevant
     
     \begin{equation*}
     \begin{tikzcd}[column sep=tiny]
-    X_1 \ar[d,"A_1"'] & \subset & X \ar[d,"A"] \\
-    X_1 & \subset & X
+        X_1 \ar[d,"A_1"'] & \subset & X \ar[d,"A"] \\
+        X_1 & \subset & X
     \end{tikzcd}
     \end{equation*}
 
     \begin{equation*}
     \begin{tikzcd}[column sep=tiny]
-    X_1 \ar[d,"C_1"'] & \subset & X \ar[d,"C"] \\
-    Y_1 & \subset & Y
+        X_1 \ar[d,"C_1"'] & \subset & X \ar[d,"C"] \\
+        Y_1 & \subset & Y
     \end{tikzcd}
     \end{equation*}
 
     \begin{equation*}
     \begin{tikzcd}[column sep=tiny]
-    U_1 \ar[d,"B_1"'] & \subset & U \ar[d,"B"] \\
-    X_1 & \subset & X
+        U_1 \ar[d,"B_1"'] & \subset & U \ar[d,"B"] \\
+        X_1 & \subset & X
     \end{tikzcd}
     \end{equation*}
 \end{definition}
 
-\textbf{Exercise}.
-If $\sigma_1$ is a subsystem of $\sigma$, show that the set of input-output pairs of $\sigma_1$ is a subset of the input-output pairs of $\sigma$.
-Is the converse true?
+\begin{exercise}
+    If $\sigma_1$ is a subsystem of $\sigma$, show that the set of input-output pairs of $\sigma_1$ is a subset of the input-output pairs of $\sigma$.
+    Is the converse true?
+\end{exercise}
 
-\textbf{Exercise}.
-If $\sigma_1$ is a subsystem of $\sigma$, and if $\sigma$ is completely observable, show that $\sigma_1$ is also completely observable.
+\begin{exercise}
+    If $\sigma_1$ is a subsystem of $\sigma$, and if $\sigma$ is completely observable, show that $\sigma_1$ is also completely observable.
+\end{exercise}
 
 \begin{theorem} \label{thm:CompletelyControllableSubsystem}
     Let $\sigma = (U, X, Y, A, B, C, D)$ be a system.
@@ -892,9 +895,10 @@ If $\sigma_1$ is a subsystem of $\sigma$, and if $\sigma$ is completely observab
     Then, $\sigma_1 = (U, X_1, Y, A_1, B_1, C_1, D_1)$ is a completely controllable subsystem of $\sigma$.
 \end{theorem}
 
-\textbf{Proof}.
-(\ref{eq:A(X_1)subsetX_1}) follows from (\ref{eq:X_1=B(U)+AB(U)+A^2B(U)+...}).
-All the rest is obvious.
+\begin{proof}
+    (\ref{eq:A(X_1)subsetX_1}) follows from (\ref{eq:X_1=B(U)+AB(U)+A^2B(U)+...}).
+    All the rest is obvious.
+\end{proof}
 
 \begin{remark}
     This construction -- ``reducing'' the state space from $X$ to $X_1$, via formula (\ref{eq:A(X_1)subsetX_1}) -- provides us with a method of constructing a completely controllable \emph{and} observable system $\sigma_1$, starting with an observable one $\sigma$.

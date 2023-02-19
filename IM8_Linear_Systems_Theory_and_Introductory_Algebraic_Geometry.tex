@@ -13,6 +13,7 @@
 \usepackage{pgfplots}
 \usepackage{listings}
 \usepackage{tikz}
+\usepackage{tikz-cd}
 \usepackage{mathrsfs}
 \usepackage{accents}
 \usepackage{fancyhdr}
@@ -141,7 +142,15 @@ One main mathematical goal of systems theory is to study to what extent the set 
     Of course, systems theory is very closely related to optimal control theory, and there are many important applications via this connection to economics, mechanical engineering, operations research, etc.
     \item One will find many ways in the engineering literature to describe ``systems'' by means of diagrams.
     Of course, a pictorial representation suggests itself from the ``input'' and ``output'' for the curves $t \mapsto u(t), y(t)$.
-    % TODO: Add diagram from the original textbook.
+
+    \begin{equation*}
+    \begin{tikzpicture}
+        \node[draw, rectangle, minimum width=2cm, minimum height=1cm] (box) at (0,0) {};
+        \draw (box.west) -- ++(-2,0) node[above]{$u$} node[below]{input};
+        \draw (box.east) -- ++(2,0) node[above]{$y$} node[below]{output};
+    \end{tikzpicture}
+    \end{equation*}
+    
     In this way of thinking, the ``state'' structure is thought of as a ``black box,'' which is known only via its response to various inputs.
     Here we touch on a very interesting difference in outlook between physics and engineering.
     From the mathematical point of view, much of physics is the study of the pair $(X, \varphi)$ consisting of a ``state space'' $X$, and a one-parameter semi-group of transformations $t \mapsto \varphi(t): X \to X$ acting on $X$.
@@ -219,7 +228,13 @@ We shall call such a $\sigma$ a \textbf{linear system}. The set of all such $\si
 $$\Sigma.$$
 All the data necessary to define a linear system may be summarized in the following diagram of vector spaces and linear maps.
 (Note that it is not a ``commutative'' diagram.)
-% TODO: Insert image from the original textbook.
+
+\begin{equation*}
+\begin{tikzcd}
+U \ar[r,"D"] \ar[d,"B"'] & Y \\
+X \ar[r,"A"'] & X \ar[u,"C"']
+\end{tikzcd}
+\end{equation*}
 
 With $\sigma$ given by (\ref{eq:sigma1}), we can consider the following system of linear constant-coefficient equations:
 \begin{align}
@@ -533,7 +548,13 @@ Now we turn to the discussion of the type of system -- the ``completely controll
 
 \section{Completely Controllable and Observable Systems}
 Let $\sigma$ be a linear system, described by the following diagram of spaces and mappings
-% TODO: Add diagram from the original textbook.
+
+\begin{equation}
+\begin{tikzcd} \label{diag:LinearSystem1}
+U \ar[r,"D"] \ar[d,"B"'] & Y \\
+X \ar[r,"A"'] & X \ar[u,"C"']
+\end{tikzcd}
+\end{equation}
 
 \begin{definition}
     $\sigma$ is said to be \textbf{completely controllable} if the following condition is satisfied:
@@ -552,7 +573,7 @@ Let $\sigma$ be a linear system, described by the following diagram of spaces an
 
 \begin{remark}
     The practical and theoretical meaning of conditions () and () is extensively discussed in the treatises, e.g. Brockett [1], Desoer [1] and Kalman, Arbib, and Falb [1]. % TODO: Add refs in bibliography
-    Recall that (5.1) means that, given $x_0, x_1 \in X$, an input curve $t \mapsto u(t), a \leq t \leq b$ can be chosen so that the solution of the equation: % TODO: Add ref to diagram from original textbook in place of hard-coded (5.1)
+    Recall that (\ref{diag:LinearSystem1}) means that, given $x_0, x_1 \in X$, an input curve $t \mapsto u(t), a \leq t \leq b$ can be chosen so that the solution of the equation:
     $$\frac{\dd{x}}{\dd{t}} = Ax + Bu(t)$$
     goes from $x_0$ to $x_1$ as $t$ varies from $a$ to $b$.
     In volume III I have given a brief ``functional analysis'' proof of this fact.
@@ -604,7 +625,17 @@ Using the power-series expansion of $e^{At}$, (\ref{eq:Ce^(At)x_0=C_1e^(A_1t)x_1
 Now, change the logic somewhat, and suppose the input curve $t \mapsto u(t)$ and the state vector $x_0 \in X$ are given.
 Define the output $t \mapsto y(t)$ of $\sigma$ by formula (\ref{eq:CompletelyObservableLinearODESystemy1}).
 Here is the diagram for this:
-% TODO: Add diagram image from the original textbook
+
+\begin{equation}
+\begin{tikzpicture} \label{diag:x_0}
+    \node[draw, rectangle, minimum width=1cm, minimum height=1cm] (box) at (0,0) {};
+    \node[above] (x0) at (box.north) {$x_0$};
+    \node[above] at (x0.north) {state};
+    \draw (box.west) -- ++(-2,0) node[above]{$u$};
+    \draw (box.east) -- ++(2,0) node[above]{$y$};
+\end{tikzpicture}
+\end{equation}
+
 In words, we set the ``dial'' in the ``black-box'' represented by $\square$ so that it is in state $x_0$, and read the output curve $t \mapsto y(t)$.
 
 Now, note that ``complete observability'' of $\sigma_1$ implies that $x_1$ is completely determined by $x_0$ and condition (\ref{eq:AlgebraicIdentities1}).
@@ -615,14 +646,14 @@ $$C_1A_1^n(x_1^1-x_1) = 0 \text{ for all } n,$$
 which, by (\ref{eq:CompletelyObservableCondition1}), implies
 $$x_1^1 = x_1.$$
 
-Let us now run the ``machine'' represented by (5.11) with zero input, and given initial state $x_0$. % TODO: Add actual reference to diagram from original textbook and replace hard-coded reference (5.11) with \ref 
+Let us now run the ``machine'' represented by (\ref{diag:x_0}) with zero input, and given initial state $x_0$.
 There is then an $x_1$ such that (\ref{eq:AlgebraicIdentities1}) is satisfied, which is uniquely determined by $x_0$. We can then define a map
 $$g: X \to X$$
 so that:
 \begin{align} \label{eq:g(x_0)=x_1}
     g(x_0) &= x_1.
 \end{align}
-Since $x_1$ is uniquely determined by $x_0$, and the conditions (5.11) (regarded as an equation for $x_1$) are linear, the map $g$ is linear. % TODO: Add actual reference to diagram from original textbook and replace hard-coded reference (5.11) with \ref 
+Since $x_1$ is uniquely determined by $x_0$, and the conditions (\ref{diag:x_0}) (regarded as an equation for $x_1$) are linear, the map $g$ is linear. % TODO: Is this reference a typo?
 Thus, $g$ satisfies the following conditions:
 \begin{align} \label{eq:CA^n=C_1A_1^ng}
     CA^n &= C_1A_1^ng \text{ for all } n.
@@ -766,10 +797,24 @@ Set:
 $$\sigma^d = (U_1, X_1, Y_1, A_1, B_1, C_1, D_1),$$
 i.e. $U_1$ is the input space of $\sigma^d$, $X_1$ is the state space, etc.
 Here is the mapping diagram of $\sigma$.
-% TODO: Include diagram from original textbook.
+
+\begin{equation*}
+\begin{tikzcd} \label{diag:LinearSystem2}
+U \ar[r,"D"] \ar[d,"B"'] & Y \\
+X \ar[r,"A"'] & X \ar[u,"C"']
+\end{tikzcd}
+\end{equation*}
+
 Apply the ``duality'' cofunctor to this diagram, i.e. replace each vector space by its dual vector space, and each map by its dual map.
 We obtain the following mapping diagram:
-% TODO: Include diagram from original textbook.
+
+\begin{equation*}
+\begin{tikzcd} \label{diag:LinearSystem3}
+Y^d \ar[r,"D^d"] \ar[d,"C^d"'] & U^d \\
+X^d \ar[r,"A^d"'] & X^d \ar[u,"B^d"']
+\end{tikzcd}
+\end{equation*}
+
 This is the diagram associated to the dual system $\sigma^d$.
 Especially notice that the role of input and output spaces is interchanged under this duality.
 For example, the dimension of the input space of $\sigma^d$ is the dimension of the output space of $\sigma$.
@@ -794,7 +839,27 @@ Here is a relevant
         D &= D_1.
     \end{align}
     The following diagram of maps are commutative:
-    % TODO: Include diagrams from original textbook.
+    
+    \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+    X_1 \ar[d,"A_1"'] & \subset & X \ar[d,"A"] \\
+    X_1 & \subset & X
+    \end{tikzcd}
+    \end{equation*}
+
+    \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+    X_1 \ar[d,"C_1"'] & \subset & X \ar[d,"C"] \\
+    Y_1 & \subset & Y
+    \end{tikzcd}
+    \end{equation*}
+
+    \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+    U_1 \ar[d,"B_1"'] & \subset & U \ar[d,"B"] \\
+    X_1 & \subset & X
+    \end{tikzcd}
+    \end{equation*}
 \end{definition}
 
 \textbf{Exercise}.

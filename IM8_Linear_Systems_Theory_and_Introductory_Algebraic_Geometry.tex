@@ -32,6 +32,7 @@
 \newtheorem{definition}{Definition}[section]
 \newtheorem{exercise}{Exercise}[section]
 \newtheorem*{remark}{Remark}
+\newtheorem*{remarks}{Remarks}
 
 \newcommand{\dd}[1]{\mathrm{d}#1}
 \newcommand{\utilde}[1]{\underaccent{\tilde}{#1}}
@@ -112,7 +113,7 @@ is said to be a \textbf{system}.
 Typical elements of $X, U, Y$ are denoted $x, u, y$. $t$ is a real variable, ranging say over
 $$0 \leq t < \infty.$$
 A curve
-$$t \mapsto (x(t), u(t), y(t)0 \in X \times U \times Y$$
+$$t \mapsto (x(t), u(t), y(t)) \in X \times U \times Y$$
 is said to be a \textbf{trajectory} of the system if it is a solution of the equations (\ref{eq:ODESystem1}).
 The curve $t \mapsto u(t)$ in $U$ is then called the \textbf{input}, the curve $t \mapsto x(t)$ is called the \textbf{state curve}, and the curve $t \mapsto y(t)$ is called the \textbf{output}.
 
@@ -124,7 +125,7 @@ The curve $t \mapsto u(t)$ in $U$ is then called the \textbf{input}, the curve $
 
 One main mathematical goal of systems theory is to study to what extent the set of input-output pairs characterizes the whole system.
 
-\textbf{Remarks}.
+\begin{remarks}
 \begin{enumerate}
     \item I have chosen this specific mathematical framework for describing what is meant by a "system" so that we can go to work with a minimum of definitions.
     Refer to Kalman, Arbib and Falb [1], Zadeh and Desoer [1], for the full story. % TODO: Move refs to bibliography.
@@ -158,6 +159,7 @@ One main mathematical goal of systems theory is to study to what extent the set 
     This framework suggests the physicist's main job is to ``approximate'' $X$ as best he can, and make predictions to be checked with experiment.
     This implies that there is some physical ``truth'' or ``law'' that the scientist is trying to discover.
 \end{enumerate}
+\end{remarks}
 
 Let us call the pair $(X, \varphi)$ the \textbf{physicists' dynamical system}.
 We can see a difference in outlook between the physicist and engineer by examining the difference between $(X, \varphi)$, and a ``system''
@@ -431,7 +433,7 @@ Hence, the complete solution to the system (\ref{eq:LinearODESystemy1}) is:
     is called the \textbf{frequency response} of the system.
 \end{definition}
 
-\textbf{Remarks}.
+\begin{remarks}
 \begin{enumerate}
     \item \textbf{Resolvents}.
     In functional analysis, the operator-valued function
@@ -454,6 +456,7 @@ Hence, the complete solution to the system (\ref{eq:LinearODESystemy1}) is:
     Thus, discussing algebraic objects like the transfer function over other scalar fields than the complex numbers might be a useful generalization.
     For example, it might be relevant to situations where the differential equations were replaced by difference equations.
 \end{enumerate}
+\end{remarks}
 
 Here is a main result.
 

@@ -31,6 +31,8 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
 \newtheorem{exercise}{Exercise}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem*{examples}{Examples}
 \newtheorem*{remark}{Remark}
 \newtheorem*{remarks}{Remarks}
 
@@ -917,11 +919,457 @@ While not all of this algebraic material will be immediately needed to study lin
 
 \section{Introduction}
 
+Algebraic geometry is the heaviest and most impenetrable area of modern mathematics.
+Even pure mathematicians with other specialties know almost nothing of what goes on there.
+It must be impossible for an applied mathematician, engineer or physicist to use the ideas.
+
+And yet this is material that \emph{should} have an applied component.
+After all, what is more useful than knowing something about the set of zeros of a set of polynomials?
+In particular, in systems theory -- as R. Kalman has pointed out -- many of the fundamental concepts (which are still in a state of flux) are closely tied to mathematics that looks very much like algebraic geometry.
+
+In this chapter I shall attempt to give a layman's view of some of the easier and more geometric ideas of algebraic geometry, with emphasis on development of technique to handle systems theory problems.
+I shall attempt to emphasize the ``Lefschetz principle,'' i.e. the comprehension of general algebro-geometric ideas by reference and analogy to the special case of algebraic and projective geometry over the complex numbers.
+
 \section{Polynomials}
 
-\section{Affine Algebraic Varieties}
+All vector spaces will be finite dimensional, unless mentioned otherwise.
+$K$ will be a field, that will be fixed throughout the discussion.
+We are usually interested mainly in the case where $K = $ real numbers, $\mathbb{R}$, or complex numbers, $\mathbb{C}$, but it is the spirit of algebraic geometry to try and carry along general ``ground fields.''
+(This is motivated in many mathematician's minds by the desire to develop techniques that will ultimately be useful for number theory.
+Certain applied areas, e.g. coding theory, also strongly involve the study of general ground fields.)
+
+Let $V$ be a vector space, with $K$ as field of scalars.
+I refer to volume II for the ideas and notations of linear algebra.
+
+Let $F(V, K)$ denote the space of maps
+$$f: V \to K.$$
+An element of $F(V, K)$ will be called a $K$\textbf{-valued function on} $V$.
+Two such functions can be added and multiplied, hence $F(V, K)$ forms a commutative, associative algebra.
+We shall usually assume it has this algebraic structure, without special mention every time.
+Explicitly,
+\begin{align*}
+\begin{split}
+    (f_1 + f_2)(v) &= f_1(v) + f_2(v) \\
+    (f_1f_2)(v) &= f_1(v)f_2(v) \\
+    \text{for } V, f_1, f_2 \in F(V, K).
+\end{split}
+\end{align*}
+
+Let $V^d$ denote the dual space to $V$. Recall that an element of $V^d$ is a \emph{linear} map
+$$V \to K.$$
+In particular,
+$$V^d \subset F(V, K).$$
+
+\begin{definition}
+    A \textbf{polynomial} on $V$ is an element of the smallest subalgebra of $F(V, K)$ containing $V^d$ and the element $1$, which maps each element of $V$ into the unit element of $K$.
+    The set of such polynomials is denoted by
+    $$P(V, K).$$
+\end{definition}
+
+To see what this means less abstractly, let
+$$(v_1, \dots, v_n)$$
+be a basis of $V$.
+Then, each element $v \in V$ admits a unique expansion of the form:
+\begin{align}
+    v &= x_1(v)v_1 + \dots + x_n(v)v_n,
+\end{align}
+where, for fixed $v$, $x_1(v), \dots, x_n(v)$ are elements of $K$ which are uniquely determined by $v$.
+Hence, the correspondence $v \mapsto x_1(v), \dots, v \mapsto x_n(v)$ define functions on $V$, which are evidently linear.
+In other words, the $x_1, \dots, x_n$ define elements of $V^d$.
+
+\begin{remark}
+    It is a trivial, but very useful, fact that the $(x_1, \dots, x_n)$ form a \emph{basis} for the vector space $V^d$.
+    It is usually called the basis \emph{dual} to $(v_1, \dots, v_n)$.
+
+    Hence, a polynomial is a function on $V$ of the form:
+    \begin{align} \label{eq:PolynomialExpansion1}
+        f &= \sum k_{i_1 \dots i_n} x_{i_1} \dots x_{i_n} + \dots,
+    \end{align}
+    with coefficients $k_{(\ )}$ which are elements of $K$.
+    The dependence on the indices can be normalized so that the coefficients depend symmetrically on the indices.
+\end{remark}
+
+\begin{exercise}
+    Recall (e.g. from volume II) the definition of the symmetric tensor algebra
+    $$S(V)$$
+    of a vector space $V$.
+
+    Prove that the map
+    $$V^d \to P(V, K)$$
+    may be extended ``naturally'' to give an algebra homomorphism
+    $$S(V^d) \to P(V, K).$$
+\end{exercise}
+
+\begin{remark}
+    If $K$ has an infinite number of elements (and in particular then if $K = \mathbb{R}$ or $\mathbb{C}$) we shall see later on that this map is an isomorphism.
+\end{remark}
+
+We can look at the expansion (\ref{eq:PolynomialExpansion1}) more abstractly, in terms of ``homogeneous polynomials.''
+
+\begin{definition}
+    Let $r$ be a non-negative integer.
+    A function $f: V \to K$ is said to be \textbf{homogeneous of degree} $r$ if:
+    \begin{align}
+        f(kv) &= k^rf(v) \text{ for all } v \in V, k \in K.
+    \end{align}
+\end{definition}
+
+Let $P_r(V, K)$ denote the linear subspace of $P(V, K)$ consisting of the homogeneous polynomials of degree $r$.
+
+\begin{exercise}
+    Show that
+    $$P_0(V, K) = K, \text{ the constant functions.}$$
+\end{exercise}
+
+\begin{exercise}
+    Show that
+    $$P_1(V, K) = V^d.$$
+\end{exercise}
+
+\begin{exercise}
+    With the correspondence between the symmetric tensors $S(V^d)$ and $P(V, K)$, show that $S_r(V^d)$ (the symmetric tensors of degree $r$) and $P_r(V, K)$ correspond.
+\end{exercise}
+
+\begin{example}[Polynomials on $K^n$]
+    Let
+    $$V = K^n.$$
+    A typical element $v \in V$ is then an ordered $n$-tuple
+    $$v = (k_1, \dots, k_n)$$
+    of elements of $K$.
+    Define $K$-valued linear functions
+    $$x_1, \dots, x_n: V \to K$$
+    so that:
+    $$v = (x_1(v), \dots, v_n(v)) \text{ for all } v \in V = K^n.$$
+    In other words,
+    \begin{align*}
+    \begin{split}
+        x_1(v) &= \text{ first component of } v, \\
+        x_2(v) &= \text{ second component of } v,
+    \end{split}
+    \end{align*}
+    and so forth.
+
+    The $x_1, \dots, x_n$ are elements of $V^d$.
+    In particular, they are polynomial functions on $V$, homogeneous of the first degree, obviously.
+    Thus, polynomials of the $r$-th degree may be written in the form
+    $$\sum_{1 \leq i_1 \leq \dots \leq i_r \leq n} k_{i_1 \dots i_r} x_{i_1} \dots x_{i_r},$$
+    with coefficients $k_{(\ )}$ in $K$, which is the classical formalism to describe a polynomial.
+\end{example}
+
+\begin{example}[Symmetric bilinear forms and quadratic forms]
+    These two notions are sometimes confused.
+    A \textbf{symmetric bilinear form on} $V$ (with values in $K$) is a map
+    $$\beta: V \times V \to K,$$
+    which is $K$-bilinear and symmetric.
+    A \textbf{quadratic form}
+    $$q: V \to K$$
+    is a second degree polynomial function.
+    There is a natural mapping
+    $$\beta \mapsto q$$
+    from symmetric bilinear forms to quadratic ones:
+    $$q(v) = \beta(v, v) \text{ for } v \in V.$$
+    One sees readily that this map is an isomorphism.
+\end{example}
+
+\begin{remark}
+    This section has been merely a bit of what mathematicians call ``generalized nonsense.''
+    The point of it is that it is desirable to have basis-free definitions, and this is one way to do it.
+    From a more modern algebraic point of view, what is the most important is the ``functorial'' nature of the assignment:
+    $$\text{vector space} \to \text{algebra of polynomial functions on the algebra}.$$ % TODO: Is this a typo? Should it be ``functions on the vector space''?
+    Indeed, such ``homological algebraic'' ways of defining things are the dominant ones in the current literature, but I believe it is more useful for the reader interested in the applications to use the relatively more concrete older ways of thinking, at least in the beginning.
+\end{remark}
+
+\section{Affine Algebraic Varieties} \label{section:AffineAlgebraicVarieties}
+
+Let $V$ continue to be a finite dimensional vector space over a field $K$.
+$P(V, K)$ denotes the polynomial functions, which form a commutative, associative algebra over $K$.
+
+Recall that an \textbf{ideal} of $P(V, K)$ is a $K$-linear subspace $I$ such that
+\begin{align*}
+\begin{split}
+    P(V, K)I \subset I.
+    IP(V, K) \subset I.
+\end{split}
+\end{align*}
+Since multiplication in $P(V, K)$ is abelian, these conditions can be replaced by
+$$P(V, K)I \subset I.$$
+
+Let $A$ be an arbitrary subset of $V$.
+Set:
+\begin{align}
+    I_A &= \{f \in P(V, K): f(A) = 0\}.
+\end{align}
+$I_A$ is obviously an ideal of the algebra $P$.
+It is called the \textbf{annihilating ideal of the subset} $A$.
+
+Conversely, we can start off with an ideal $I$, and define
+\begin{align}
+    A_I &= \{v \in V: f(v) = 0 \text{ for all } f \in I\}.
+\end{align}
+$A_I$ is the \textbf{set of zeros} of $I$.
+
+\begin{definition}
+    A subset $A \subset V$ is called an \textbf{affine algebraic variety} if there is an ideal $I \subset P(V)$ such that:
+    \begin{align}
+        A &= A_I.
+    \end{align}
+\end{definition}
+
+\begin{remark}
+    The precise notion of what is meant by the word ``variety'' is more complicated and abstract than this in the technical algebra-geometric literature.
+    From that point of view the object defined above should be called an ``algebraic set.''
+    I shall comment further on the underlying issues when we come to discuss the analogies between algebraic varieties and differentiable manifolds.
+\end{remark}
+
+\begin{examples}
+    To recapture the traditional ideas, suppose that
+    $$V = K^n.$$
+    Let $x_1, \dots, x_n$ be the basis for $V^d$ such that:
+    $$v = (x_1(v), \dots, x_n(v)) \text{ for all } v \in K^n.$$
+    A polynomial function
+    $$f: V \to K$$
+    then becomes a polynomial function
+    $$f(x_1, \dots, x_n)$$
+    of these variables.
+
+    We shall prove later on that all ideals in $P(V)$ are ``finitely generated.''
+    This means that to each algebraic variety
+    $$A \subset V$$
+    there are a finite number of elements
+    $$f_1, \dots, f_m$$
+    of $P(V)$ such that:
+    $$A = \{v \in V: f_1(v) = \dots = f_m(v) = 0\}.$$
+    In other words, affine algebraic varieties can be obtained by setting a finite number of polynomials equal to zero.
+    Translated to $K^n$, this means that $A$ is defined by:
+    $$f_1(x) = \dots = f_n(x) = 0.$$
+    Here are some names traditionally attached to various types of algebraic varieties that appear most often in the literature.
+
+    $A$ is a \textbf{hypersurface} if it is defined by setting a single polynomial $f(x)$ to zero.
+
+    $A$ is a \textbf{hyperplane} if it is a hypersurface defined by an equation
+    $$f(x) = 0,$$
+    with $f(x)$ a polynomial of at most first degree.
+    In other words,
+    \begin{align} \label{eq:HyperplaneDefinition1}
+        f(x) &= \sum_{j=1}^n k_ix_i + k_0 \text{ where } k_i, k_0 \in K.
+    \end{align}
+    
+    $A$ is a \textbf{linear variety} if it is the intersection of a number of hyperplanes, i.e. $A$ is defined by setting equal to zero functions $f_1(x), \dots, f_m(x)$ of form (\ref{eq:HyperplaneDefinition1}).
+
+    $A$ is a \textbf{quadratic hypersurface} if it is of the form
+    \begin{align}
+    \begin{split}
+        A &= \{f(x) = 0\}, \\
+        f(x) &= \sum_{i, j} k_{ij}x_ix_j + \sum_i k_ix_i + k_0,
+    \end{split}
+    \end{align}
+    with the coefficients $k_{(\ )}$ in $K$.
+\end{examples}
+
+\begin{remark}
+    One might ask why these objects are called ``affine'' varieties.
+    Perhaps ``linear'' would seem more appropriate, since they are varieties in linear spaces.
+    One important reason for this name is that this definition is invariant (or ``covariant'') under the affine group.
+    We now briefly explain what is involved here.
+
+    Recall that an \textbf{affine map}
+    $$\alpha: V \to V$$
+    is a map of the form
+    $$\alpha(v) = Av + v_0,$$
+    where $A$ is a linear map: $V \to V$, and $v_0$ is a fixed element of $V$.
+    The invertible affine maps of $V$ onto itself form a group, called the \textbf{affine group of the vector space} $V$.
+\end{remark}
+
+\begin{exercise}
+    If $A \subset V$ is an affine algebraic variety, and if $\alpha: V \to V$ is an affine map, show that
+    $$\alpha(A)$$
+    is an affine algebraic variety.
+    In particular, note that the affine group acts as a transformation group on the space of affine algebraic varieties of $V$.
+\end{exercise}
+
+\begin{exercise}
+    Show that the affine group $G$ acts transitively on the set of hyperplanes.
+    Calculate the isotropy subgroup $H$ for this action.
+    Try to identify the coset space $G/H$ in terms of more familiar objects.
+\end{exercise}
+
+\begin{exercise}
+    Does the affine group act transitively on the set of quadratic hypersurfaces?
+    Calculate all the orbits, and calculate the isotropy subgroups for each of the orbits.
+\end{exercise}
+
+\begin{exercise}
+    Show that a hyperplane is the orbit of a subgroup of the affine group.
+    What is the maximal such subgroup?
+\end{exercise}
+
+\begin{exercise}
+    Which of the quadratic hypersurfaces are orbits of subgroups of the affine group?
+\end{exercise}
+
+\begin{exercise}
+    Define a \textbf{parametrized straight line} of $V$ as a map
+    $$K \to V$$
+    of the form
+    \begin{align} \label{fn:AffineMap1}
+        k \mapsto kv_1 + v_0, \text{ with } v_1, v_0 \in V.
+    \end{align}
+    Show that a map
+    $$\alpha: V \to V$$
+    is an affine map if and only if it takes straight lines into straight lines.
+    This result will then show that the affine group is in some sense the group of ``automorphisms'' of the ``geometry'' on $V$ defined by the parametrized straight lines.
+    (This geometric structure for $V$ is usually called \textbf{affine geometry}.)
+\end{exercise}
 
 \section{Projective Algebraic Varieties}
+
+We have seen that it is quite easy to define ``algebraic varieties'' in the ``affine'' sense, in terms of linear vector space theory.
+At the end of Section \ref{section:AffineAlgebraicVarieties} we have seen the connection with the group of affine automorphisms of $V$.
+
+Here we have established contact with the famous Erlangen Program proclaimed around the turn of the century by Felix Klein.
+In contemporary language it would say approximately that one should study a geometric structure by means of the group of its automorphisms.
+This particular way of stating it is a commonplace of contemporary mathematical thinking -- indeed now formalized in terms of ``categories and functors'' -- and Klein's ideas were somewhat more mystical.
+
+Whatever the precise setting for Klein's program, it motivates very well the generalization of affine to ``projective'' geometry.
+Consider the unparameterized straight lines of a vector space $V$, i.e. the subsets of $V$ which are the image under $K$ of a map
+$$K \to V$$
+that has the form described by formula (\ref{fn:AffineMap1}).
+Consider an invertible map
+$$V \to V$$
+which has the property that it maps straight lines (as subsets of $V$) into straight lines.
+The set of all such maps would form a group, which might be called the ``projective group,'' and ``projective geometry'' would be the study of geometric notions on $V$ which were ``invariant'' or ``covariant'' under the action of this group.
+
+In fact, there are difficulties with carrying out this program for the study of projective geometry, as just stated.
+Namely, it turns out that projective maps that are not affine can only be defined on open subsets (in the ``Zariski'' sense) of $V$, and not on all of $V$.
+Thus, one might introduce a more general notion of ``pseudo group'' -- which is an abstract algebraic structure which has all of the properties of a group except that one cannot always compose two maps -- in order to study projective notions.
+However, there is a simpler alternative in this case -- extend $V$ to a larger space by adding certain ``ideal'' elements (they form what is classically called the \textbf{hyperplane at infinity}), and obtaining a bigger space containing $V$ and a genuine ``projective'' group acting on this bigger space.
+This larger space is called a ``projective space.''
+We shall now present its construction from an independent point of view, and describe how one can generalize the notion of ``affine algebraic variety'' to ``projective algebraic variety,'' in such a way the projective group acts on the space of projective algebraic varieties.
+
+Let us start off with another vector space $W$, with the same field $K$ as its field of scalars.
+For later applications, $W$ will have dimension $n+1$, if the dimension of $V$ is $n$, but for the moment $W$ will be an arbitrary vector space, even possibly infinite dimensional.
+Set:
+\begin{align*}
+\begin{split}
+    K' &= \{k \in K: k \neq 0\}, \\
+    W' &= \{w \in W: w \neq 0\}.
+\end{split}
+\end{align*}
+Since $K$ is a field, under multiplication $K'$ forms an abelian group.
+The scalar multiplication defining $W$ as a $K$-vector space defines a transformation group action of the group $K'$ on $W'$.
+
+\begin{definition}
+    The \textbf{projective space} $\textrm{PS}(W)$ associated with the vector space $W$ (and the scalar field $K$) is the orbit space of the action of the group $K'$ on $W'$.
+    According to the general notation for orbit space, we have then:
+    $$K' \backslash W' = \textrm{PS}(W).$$
+\end{definition}
+
+\begin{remark}[Notation]
+    A notation I (and many others) have used before for ``projective space'' is $P(W)$.
+    Since this conflicts with the notation we have chosen in previous sections for the algebra of polynomial functions on $W$, I have changed the notation to $\textrm{PS}(W)$.
+\end{remark}
+
+\begin{remarks}[Interpretation]
+    The orbits of $K'$ on $W'$ are precisely the one-dimensional linear subspaces of $W$, minus the origin.
+    Thus, $\textrm{PS}(W)$ can also be identified with the space of $1$-dimensional linear subspaces of $W$.
+    This is the conventional way to define the projective spaces.
+\end{remarks}
+
+Let
+$$\pi: W - \{0\} \to \textrm{PS}(W)$$
+be the projection map which assigns to each non-zero $w \in W$ the orbit of $K'$, i.e. the one-dimensional linear subspace in which it lies.
+Let $A$ be a subset of $\textrm{PS}(W)$.
+Set:
+\begin{align}
+    A' &= \pi^{-1}(A) \cup \{0\}.
+\end{align}
+I.e. $A' - \{0\}$ is the set of points in $W$ which map into $A$.
+Then, we have:
+\begin{align} \label{eq:kA'=A'}
+    kA' &= A' \text{ for all } k \in K.
+\end{align}
+A subset $A'$ of $W$ which satisfies (\ref{eq:kA'=A'}) will be called a \textbf{homogeneous subset}.
+We can now sum up as follows:
+
+\begin{theorem}
+    There is a one-one correspondence (via $A' \mapsto \pi(A' - \{0\})$) between homogeneous subsets of $W$ and subsets of $\textrm{PS}(W)$.
+\end{theorem}
+
+Here is a related idea, which is often useful.
+
+\begin{theorem}
+    Let $A'$ be a homogeneous subset of $W$, and let
+    $$A = \pi(A' - \{0\}).$$
+    Let
+    $$\varphi': A' \to B$$
+    be any map into a set $B$.
+    Then, there is a map $\varphi: A \to B$ and a commutative diagram
+
+    \begin{equation*}
+    \begin{tikzcd}
+        A'-\{0\} \arrow[d, "\pi"'] \arrow[dr, "\varphi'"] \\
+        A \arrow[r, "\varphi"'] & B
+    \end{tikzcd}
+    \end{equation*}
+    
+    if and only if $\varphi'$ satisfies the following homogeneity condition:
+    \begin{align}
+        \varphi'(kw) &= \varphi'(w) \text{ for all } k \in K, w \in W.
+    \end{align}
+\end{theorem}
+
+\begin{remarks}
+    Another way of putting this is that the orbits of $K'$ on $A' - \{0\}$ define an equivalence relation, and the condition that the map $\varphi'$ pass to the quotient to define $\varphi$ -- a general idea discussed in Chapter I of Volume I -- is that it be constant on the equivalence classes.
+    This is most often applied in case $B = K$.
+
+    For example, suppose
+    $$f_1, f_2: W \to K$$
+    are homogeneous polynomial maps of degree $n$.
+    $A'$ is the set of all $w \in W$ for which $f_2(w) \neq 0$.
+    \begin{align}
+        \varphi'(w) = \frac{f_1(w)}{f_2(w)}.
+    \end{align}
+    $\varphi'$ passes to the quotient to define a map
+    $$\varphi: A \to K.$$
+    Such mappings are called \textbf{rational functions on} $\textrm{PS}(W)$.
+
+    Notice particularly that ``rational functions'' on projective space are, as ``geometric'' mappings, not defined over all of $\textrm{PS}(W)$.
+    This precise domain varies with each such function.
+    To get around this awkwardness, one does not define a ``rational function'' in precisely this way, but as a more abstract algebraic object.
+\end{remarks}
+
+Finally, we come to the main notion.
+
+\begin{definition}
+    Let $A$ be a subset of $\textrm{PS}(W)$, and set
+    $$A' = \pi^{-1}(A) \cup \{0\}.$$
+    $A$ is said to be a \textbf{projective algebraic variety} if there is an ideal
+    $$I \subset P(W)$$
+    such that:
+    \begin{align}
+        A' &= \{w \in W: f(w) = 0 \text{ for } f \in I\}.
+    \end{align}
+    \begin{align} \label{fn:ActionInvariantIdealCondition1}
+        \text{For each } f \in I, \text{ each } k \in K - \{0\}, \text{ the function } w \mapsto f(kw) \text{ is again in } I.
+    \end{align}
+\end{definition}
+
+\begin{remarks}
+    Condition (\ref{fn:ActionInvariantIdealCondition1}) means that the ideal $I$ is invariant under the action of the multiplication group
+    $$K' = K - \{0\}$$
+    on $W$.
+    Notice that an ideal $I$ which has a basis consisting of polynomial functions which are homogeneous will automatically have this property.
+    (One can prove the converse, in fact.)
+    Further, if (\ref{fn:ActionInvariantIdealCondition1}) is satisfied, then $A'$ is a homogeneous subset of $W$.
+
+    Thus, there is a standard way of defining a projective algebraic variety.
+    Start off with a set
+    $$f_1, \dots, f_m$$
+    of homogeneous polynomials on $W$, and let:
+    $$A = \text{set of one-dimensional linear subspaces of } W \text{ on which the functions } f_1, \dots, f_m \text{ are zero}.$$
+
+    To discuss this in more classical terms, we shall introduce the terminology of ``homogeneous'' and ``inhomogeneous'' coordinates for projective space.
+\end{remarks}
 
 \section{Homogeneous and Inhomogeneous Coordinates}
 
